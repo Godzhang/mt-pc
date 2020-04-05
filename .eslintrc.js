@@ -18,5 +18,9 @@ module.exports = {
     semi: "off",
     "comma-dangle": "off",
     quotes: "off",
+    "vue/html-self-closing": "off",
+    "space-before-function-paren": "off",
+    "vue/order-in-components": "off",
+    "eol-last": "off",
   },
 };
