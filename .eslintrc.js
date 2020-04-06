@@ -22,5 +22,10 @@ module.exports = {
     "space-before-function-paren": "off",
     "vue/order-in-components": "off",
     "eol-last": "off",
+    curly: "off",
+    "vue/attributes-order": "off",
+    "no-unused-vars": "off",
+    "object-shorthand": "off",
+    "arrow-parens": "off",
   },
 };

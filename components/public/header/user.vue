@@ -16,14 +16,21 @@
 export default {
   data() {
     return {
-      user: ""
+      user: "",
     };
   },
-  mounted() {},
+  async mounted() {
+    const {
+      status,
+      data: { user },
+    } = await this.$axios.get("/users/getUser");
+    if (status === 200) {
+      this.user = user;
+    }
+  },
   computed: {},
   watch: {},
-  methods: {}
+  methods: {},
 };
 </script>
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>
