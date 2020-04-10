@@ -3,8 +3,8 @@
     <dl class="nav">
       <dt>全部分类</dt>
       <dd
-        v-for="item in menu"
-        :key="item.type"
+        v-for="(item, index) in menu"
+        :key="`${item.type}-${index}`"
         @mouseenter="mouseenter(item.type)"
       >
         <i :class="item.type"></i>
@@ -13,9 +13,9 @@
       </dd>
     </dl>
     <div class="detail" v-if="kind">
-      <template v-for="item in curDetail">
-        <h4 :key="item.title">{{ item.title }}</h4>
-        <span v-for="v in item.child" :key="v">{{ v }}</span>
+      <template v-for="(item, index) in curDetail">
+        <h4 :key="`${item.title}-${index}`">{{ item.title }}</h4>
+        <span v-for="(v, vi) in item.child" :key="`${v}-${vi}`">{{ v }}</span>
       </template>
     </div>
   </div>
@@ -24,49 +24,18 @@
 export default {
   data() {
     return {
-      kind: "",
-      menu: [
-        {
-          type: "food",
-          name: "美食",
-          child: [
-            {
-              title: "美食",
-              child: ["代金券", "甜点饮品"],
-            },
-          ],
-        },
-        {
-          type: "takeout",
-          name: "外卖",
-          child: [
-            {
-              title: "外卖",
-              child: ["美团外卖"],
-            },
-          ],
-        },
-        {
-          type: "hotel",
-          name: "酒店",
-          child: [
-            {
-              title: "酒店星级",
-              child: ["经济型", "舒适/三星", "高档/四星", "豪华/五星"],
-            },
-          ],
-        },
-      ],
+      kind: ""
     };
   },
   computed: {
+    menu() {
+      return this.$store.state.home.menu;
+    },
     curDetail() {
       if (!this.kind) return [];
-      return this.menu.filter((item) => item.type === this.kind)[0].child;
-    },
+      return this.menu.filter(item => item.type === this.kind)[0].child;
+    }
   },
-  watch: {},
-  mounted() {},
   methods: {
     mouseenter(type) {
       this.kind = type;
@@ -75,8 +44,8 @@ export default {
       setTimeout(() => {
         this.kind = "";
       }, 150);
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped></style>

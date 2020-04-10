@@ -21,21 +21,24 @@
             @input="input(...arguments)"
             placeholder="搜索商家或地点"
           />-->
-          <button class="el-button el-button--primary">
+          <button class="el-button el-button--primary" @click="searchFn">
             <i class="el-icon-search"></i>
           </button>
           <dl class="hotPlace" v-if="isHotPlace">
             <dt>热门搜索</dt>
-            <dd v-for="item in hotPlace" :key="item">{{ item }}</dd>
+            <dd v-for="item in hotPlace" :key="item">{{ item.name }}</dd>
           </dl>
           <dl class="searchList" v-if="isSearchList">
-            <dd v-for="item in searchList" :key="item">{{ item }}</dd>
+            <dd v-for="item in searchList" :key="item">{{ item.name }}</dd>
           </dl>
         </div>
         <p class="suggest">
-          <a href="#">故宫博物院</a>
-          <a href="#">故宫博物院</a>
-          <a href="#">故宫博物院</a>
+          <a
+            v-for="(item, idx) in hotPlace"
+            :key="idx"
+            href="javascript:;"
+            @click="searchFn(item.name)"
+          >{{ item.name }}</a>
         </p>
         <ul class="nav">
           <li>
@@ -78,13 +81,14 @@
   </div>
 </template>
 <script>
+import debounce from "lodash/debounce";
+
 export default {
   data() {
     return {
       search: "",
       isFocus: false,
-      hotPlace: [1],
-      searchList: [2]
+      searchList: []
     };
   },
   mounted() {},
@@ -94,6 +98,9 @@ export default {
     },
     isSearchList() {
       return this.isFocus && this.search.trim();
+    },
+    hotPlace() {
+      return this.$store.state.home.hotPlace.slice(0, 5);
     }
   },
   watch: {},
@@ -106,11 +113,24 @@ export default {
         this.isFocus = false;
       }, 300);
     },
-    input(search) {
-      console.log(search);
-    }
+    input: debounce(async function(input) {
+      this.searchList = [];
+      const city = this.$store.state.geo.position.city.replace("市", "");
+      const {
+        status,
+        data: { top }
+      } = await this.$axios.get("/search/top", {
+        params: {
+          city,
+          input
+        }
+      });
+      if (status === 200) {
+        this.searchList = top.slice(0, 10);
+      }
+    }, 300),
+    searchFn() {}
   }
 };
 </script>
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>

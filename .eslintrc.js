@@ -2,10 +2,10 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    node: true,
+    node: true
   },
   parserOptions: {
-    parser: "babel-eslint",
+    parser: "babel-eslint"
   },
   extends: ["@nuxtjs", "plugin:nuxt/recommended"],
   // add your custom rules here
@@ -27,5 +27,9 @@ module.exports = {
     "no-unused-vars": "off",
     "object-shorthand": "off",
     "arrow-parens": "off",
-  },
+    "unicorn/prefer-includes": "off",
+    "standard/no-callback-literal": "off",
+    "vue/no-parsing-error": "off",
+    "prefer-const": "off"
+  }
 };
