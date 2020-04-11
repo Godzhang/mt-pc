@@ -2,7 +2,10 @@
   <div class="search-panel">
     <el-row class="m-header-searchbar">
       <el-col :span="3" class="left">
-        <img src="//s0.meituan.net/bs/fe-web-meituan/fa5f0f0/img/logo.png" alt="美团" />
+        <img
+          src="//s0.meituan.net/bs/fe-web-meituan/fa5f0f0/img/logo.png"
+          alt="美团"
+        />
       </el-col>
       <el-col :span="15" class="center">
         <div class="wrapper">
@@ -26,19 +29,27 @@
           </button>
           <dl class="hotPlace" v-if="isHotPlace">
             <dt>热门搜索</dt>
-            <dd v-for="item in hotPlace" :key="item">{{ item.name }}</dd>
+            <dd v-for="item in hotPlace" :key="item">
+              <a :href="`/products?keyword=${encodeURIComponent(item.name)}`">{{
+                item.name
+              }}</a>
+            </dd>
           </dl>
           <dl class="searchList" v-if="isSearchList">
-            <dd v-for="item in searchList" :key="item">{{ item.name }}</dd>
+            <dd v-for="item in searchList" :key="item">
+              <a :href="`/products?keyword=${encodeURIComponent(item.name)}`">{{
+                item.name
+              }}</a>
+            </dd>
           </dl>
         </div>
         <p class="suggest">
           <a
             v-for="(item, idx) in hotPlace"
             :key="idx"
-            href="javascript:;"
-            @click="searchFn(item.name)"
-          >{{ item.name }}</a>
+            :href="`/products?keyword=${encodeURIComponent(item.name)}`"
+            >{{ item.name }}</a
+          >
         </p>
         <ul class="nav">
           <li>
